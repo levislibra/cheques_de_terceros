@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+
+
+    <!-- Firmante - Formulario de creacion -->
+
+    <record id="Firmante_tree" model="ir.ui.view">
+        <field name="name">Firmante Tree</field>
+        <field name="model">firmante</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de firmantes">
+                <field name="name"/>
+                <field name="cuit"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="firmante_form" model="ir.ui.view">
+        <field name="name">Firmante Form</field>
+        <field name="model">firmante</field>
+        <field name="arch" type="xml">
+            <form string="Formulario de firmante" editable="bottom">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="cuit"/>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_firmante" model="ir.actions.act_window">
+        <field name="name">Firmante</field>
+        <field name="res_model">firmante</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="Firmante_tree"/>
+    </record>
+
+    <!-- Fin Firmante -->
+
+    <!-- Banco - Formularios de creacion  -->
+
+        <record id="entidad_bancaria_tree" model="ir.ui.view">
+        <field name="name">Entidad Bancaria Tree</field>
+        <field name="model">entidad.bancaria</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de entidades bancarias">
+                <field name="name"/>
+                <field name="codigo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="entidad_bancaria_form" model="ir.ui.view">
+        <field name="name">Entidad Bancaria Form</field>
+        <field name="model">entidad.bancaria</field>
+        <field name="arch" type="xml">
+            <form string="Formulario de entidades bancarias" editable="bottom">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="codigo"/>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_entidad_bancaria" model="ir.actions.act_window">
+        <field name="name">Entidades Bancarias</field>
+        <field name="res_model">entidad.bancaria</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="entidad_bancaria_tree"/>
+    </record>
+
+
+
+     <!-- Cheque - Formularios de creacion  -->
+
+        <record id="cheque_tree" model="ir.ui.view">
+        <field name="name">Cheque Tree</field>
+        <field name="model">cheques.de.terceros</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de entidades bancarias">
+                <field name="name"/>
+                <field name="firmante_id"/>
+                <field name="banco_id"/>
+                <field name="importe"/>
+                <field name="fecha_vencimiento"/>
+
+                <field name="fecha_deposito"/>
+                <field name="fecha_acreditacion_contable"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cheque_form" model="ir.ui.view">
+        <field name="name">Cheque Form</field>
+        <field name="model">cheques.de.terceros</field>
+        <field name="arch" type="xml">
+            <form string="Formulario de cheque" editable="bottom">
+                <header>
+               		<field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                    	<field name="firmante_id"/>
+                        <field name="banco_id"/>
+                        <field name="name"/>
+                        <field name="importe" widget="monetary"/>
+                        <field name="fecha_vencimiento"/>
+                        <!--<field name="cuenta_destino_en_cartera"/>
+                        <field name="cuenta_destino_depositado"/>
+                        <field name="cuenta_destino_rechazado"/>
+
+                        <field name="fecha_deposito"/>
+                    	<field name="fecha_acreditacion_liquidacion"/>
+                        -->
+                        <field name="tasa_fija_liquidacion"/>
+                        <field name="tasa_mensual_liquidacion"/>
+                    </group>
+                    <group>
+                        
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cheque" model="ir.actions.act_window">
+        <field name="name">Cheques action</field>
+        <field name="res_model">cheques.de.terceros</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="cheque_tree"/>
+    </record>
+
+
+
+    <!-- Menu Principal del modulo (barra superior) - Cheques  -->
+    <menuitem id="menu_cheques" name="Cheques" />
+    
+    <!-- SubMenu Cheques Lista -->
+    <menuitem id="submenu_cheques_lista" name="Cheques" parent="menu_cheques"  sequence="0" />
+    <menuitem id="submenu_cheques_lista_action" name="Listar" parent="submenu_cheques_lista" action="action_cheque"  sequence="0" />
+
+    <!-- SubMenu Firmantes  -->
+    <menuitem id="submenu_cheques_firmante" name="Firmantes" parent="menu_cheques"  sequence="1" />
+    <menuitem id="submenu_cheques_firmante_action" name="Listar" parent="submenu_cheques_firmante" action="action_firmante"  sequence="0" />
+
+    <!-- SubMenu Bancos  -->
+    <menuitem id="submenu_cheques_bancos" name="Bancos" parent="menu_cheques"  sequence="2" />
+    <menuitem id="submenu_cheques_bancos_action" name="Listar" parent="submenu_cheques_bancos" action="action_entidad_bancaria"  sequence="0" />
+
+    </data>
+</openerp>
