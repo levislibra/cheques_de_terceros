@@ -28,17 +28,6 @@ from openerp.http import request
 from operator import itemgetter
 from openerp.exceptions import UserError
 
-class res_partner_add_fields(osv.Model):
-    # This OpenERP object inherits from res.partner
-    # to add a new textual field
-    _inherit = 'res.partner'
-    #'res.partner'
-
-    _columns = {
-        'tasa_fija_recomendada' : fields.float('Tasa Fija Recomendada'),
-        'tasa_mensual_recomendada' : fields.float('Tasa Mensual Recomendada'),
-    }
-
 class entidad_bancaria(osv.Model):
 	_name = 'entidad.bancaria'
 	_description = 'Entidad bancaria'
@@ -82,9 +71,6 @@ class cheques_de_terceros(osv.Model):
         'cuenta_destino_rechazado': fields.many2one('res.partner', 'Rechazado a'),
         'id': fields.many2one('liquidacion', 'Liquidacion id'),
 
-        'tasa_fija_liquidacion': fields.float('Tasa Fija'),
-        'tasa_mensual_liquidacion': fields.float('Tasa Mensual'),
-        'fecha_acreditacion_liquidacion': fields.float('Fecha de acreditacion'),
     }
     _defaults = {
     	'state': 'draft',

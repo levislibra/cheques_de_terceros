@@ -22,7 +22,6 @@ Manejo de cartera de cheques de terceros.
 
     'data': [
         'cheques_de_terceros_view.xml',
-        'liquidacion_view.xml',
 
     ],
 #    'update_xml': [

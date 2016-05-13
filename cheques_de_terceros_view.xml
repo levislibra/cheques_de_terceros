@@ -116,15 +116,6 @@
                         <field name="name"/>
                         <field name="importe" widget="monetary"/>
                         <field name="fecha_vencimiento"/>
-                        <!--<field name="cuenta_destino_en_cartera"/>
-                        <field name="cuenta_destino_depositado"/>
-                        <field name="cuenta_destino_rechazado"/>
-
-                        <field name="fecha_deposito"/>
-                    	<field name="fecha_acreditacion_liquidacion"/>
-                        -->
-                        <field name="tasa_fija_liquidacion"/>
-                        <field name="tasa_mensual_liquidacion"/>
                     </group>
                     <group>
                         
