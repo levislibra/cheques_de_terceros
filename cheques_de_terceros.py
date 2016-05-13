@@ -69,7 +69,6 @@ class cheques_de_terceros(osv.Model):
         'cuenta_destino_en_cartera': fields.many2one('account.account', 'Cartera'),
         'cuenta_destino_depositado': fields.many2one('account.account', 'Depositado en'),
         'cuenta_destino_rechazado': fields.many2one('res.partner', 'Rechazado a'),
-        'id': fields.many2one('liquidacion', 'Liquidacion id'),
 
     }
     _defaults = {
