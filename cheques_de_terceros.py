@@ -57,18 +57,15 @@ class cheques_de_terceros(osv.Model):
     _name = 'cheques.de.terceros'
     _description = 'Objeto cheque'
     _columns =  {
-        'name': fields.char("Numero del cheque", size=8, required=True),
+        'name': fields.char("Nro", size=8, required=True, help="Numero de cheque, incluyendo ceros a la izquierda"),
         'firmante_id': fields.many2one('firmante', 'Firmante', required=True),
         'banco_id': fields.many2one('entidad.bancaria', 'Banco', required=True),
         'importe': fields.float('Importe'),
-        'fecha_vencimiento': fields.date('Fecha de vencimiento'),
-        'fecha_deposito': fields.date('Fecha de deposito'),
-        'boleta_deposito': fields.text('Boleta de deposito'),
-        'fecha_acreditacion_contable': fields.date('Fecha de acreditacion'),
-        'state': fields.selection([('draft', 'Cotizacion'), ('en_cartera', 'En cartera'), ('depositado', 'Depositado'), ('rechazado', 'Rechazado')], string='Status', readonly=True, track_visibility='onchange'),
-        'cuenta_destino_en_cartera': fields.many2one('account.account', 'Cartera'),
-        'cuenta_destino_depositado': fields.many2one('account.account', 'Depositado en'),
-        'cuenta_destino_rechazado': fields.many2one('res.partner', 'Rechazado a'),
+        'fecha_vencimiento': fields.date('Vencimiento', help="Fecha de cobro"),
+        'fecha_deposito': fields.date('Deposito', help="Fecha del deposito"),
+        'boleta_deposito': fields.text('Boleta de deposito', help="ID de la boleta de deposito"),
+        'fecha_acreditacion_contable': fields.date('Acreditacion', help="Fecha de acreditacion contable, en caso de haberlo depositado en banco"),
+        'state': fields.selection([('draft', 'Cotizacion'), ('en_cartera', 'En cartera'), ('depositado', 'Depositado'), ('enpago', 'En Pago'), ('rechazado', 'Rechazado')], string='Status', readonly=True, track_visibility='onchange'),
 
     }
     _defaults = {

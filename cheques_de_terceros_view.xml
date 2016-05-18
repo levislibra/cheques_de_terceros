@@ -91,7 +91,7 @@
                 <field name="name"/>
                 <field name="firmante_id"/>
                 <field name="banco_id"/>
-                <field name="importe"/>
+                <field name="importe" widget="monetary"/>
                 <field name="fecha_vencimiento"/>
 
                 <field name="fecha_deposito"/>
@@ -126,7 +126,7 @@
     </record>
 
     <record id="action_cheque" model="ir.actions.act_window">
-        <field name="name">Cheques action</field>
+        <field name="name">Cheques</field>
         <field name="res_model">cheques.de.terceros</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="cheque_tree"/>
