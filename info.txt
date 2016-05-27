@@ -1,0 +1,72 @@
+sobre crear facturas ver archivos:
+- .\sale\wizard\sale_make_invoice_advance.py
+.\account\models\account_invoice.py
+.\account\tests\test_account_customer_invoice.py
+
+create invoice:
+
+    	account_invoice_obj = self.env['account.invoice']
+    	journalrec = self.env['account.journal'].search([('type', '=', 'sale')])[0]
+    	account_invoice_customer0 = account_invoice_obj.sudo(self.env.uid).create(dict(
+            name="Test Customer Invoice",
+            reference_type="none",
+            type="out_invoice",
+            reference= False,
+            #payment_term_id=self.payment_term.id,
+            journal_id=journalrec.id,
+            partner_id=self.cliente_id.id,
+            account_id=self.cliente_id.property_account_receivable_id[0].id,
+            #invoice_line_ids=[(0, False, {'name': "AAA"})]
+        ))
+
+
+#       invoice_id = models.execute_kw(
+#       self.env.cr.db, self.env.uid, self.env.cr._cnx._original_dsn['password'],
+#       'account.invoice', 'create', [{
+#           'partner_id': self.cliente_id.id,
+#           'account_id': self.cliente_id.property_account_receivable_id[0],
+#           'invoice_line_ids': [(0, False, {'name': "AAA"})]
+#      }])
+#      models.exec_workflow(self.env.cr.db, self.env.uid, self.env.cr._cnx._original_dsn['password'], #'account.invoice', 'invoice_open', invoice_id)
+
+
+*****************************************************************
+
+Para debug:
+_logger = logging.getLogger(__name__)
+#       _logger.error("date now : %r", date_now)
+
+        _logger.error("*****************************************************")
+        _logger.error("env : %r", self.env.__dict__.keys())
+        _logger.error("env : %r", self.env.__dict__)
+        _logger.error("*****************************************************")
+        _logger.error("env.cr : %r", self.env.cr.__dict__.keys())
+        _logger.error("env.cr : %r", self.env.cr.__dict__)
+        _logger.error("*****************************************************")
+        _logger.error("env.cr._cnx keys : %r", self.env.cr._cnx.__dict__.keys())
+        _logger.error("env.cr._cnx val: %r", self.env.cr._cnx.__dict__)
+        _logger.error("*****************************************************")
+        _logger.error("env.cr._cnx._original_dsn : %r", self.env.cr._cnx._original_dsn)
+        _logger.error("getattr : %r", self.env.cr._cnx._original_dsn['password'])
+        #_logger.error("getattr : %r", self.env.cr._cnx._original_dsn.__getattr__)
+*****************************************************************
+
+Para chequear un campo
+
+    @api.one
+    @api.constrains('name_sufix')
+    def _check_description(self):
+        if len(self.name_sufix) < 2:
+            raise ValidationError("El sufijo debe ser mayor a 2 caracteres")
+*****************************************************************
+Concatenar fecha actual a algun nombre:
+
+    @api.one
+    @api.depends('name_sufix', 'cliente_id')
+    def _escribir_nombre_cuenta(self):
+        date_now = datetime.strftime(datetime.now(), '%d-%m-%Y')
+        if self.cliente_id.name and self.name_sufix:
+            self.name = str(self.cliente_id.name) + "_" + date_now + "_" + self.name_sufix
+
+********************************************************************
+domain="[('subcuenta_id.id','=', cliente_id)]" attrs="{'readonly': [('state', '!=', 'cotizacion')]}" on_change="cliente_id"
