@@ -2,6 +2,12 @@ sobre crear facturas ver archivos:
 - .\sale\wizard\sale_make_invoice_advance.py
 .\account\models\account_invoice.py
 .\account\tests\test_account_customer_invoice.py
+account_invoice_view.xml
+account_invoice_workflow.xml
+account_invoice.py
+test_account_validate_account_move.py
+test_account_customer_invoice.py
+
 
 create invoice:
 

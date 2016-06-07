@@ -118,7 +118,6 @@
                         <field name="fecha_vencimiento"/>
                     </group>
                     <group>
-                        
                     </group>
                 </sheet>
             </form>
