@@ -27,6 +27,15 @@ from openerp.tools.translate import _
 from openerp.http import request
 from operator import itemgetter
 from openerp.exceptions import UserError
+from openerp.exceptions import ValidationError
+from openerp import models
+
+import logging
+from openerp.osv import orm
+
+_logger = logging.getLogger(__name__)
+#       _logger.error("date now : %r", date_now)
+
 
 class entidad_bancaria(osv.Model):
 	_name = 'entidad.bancaria'
@@ -56,12 +65,14 @@ class firmante(osv.Model):
 class cheques_de_terceros(osv.Model):
     _name = 'cheques.de.terceros'
     _description = 'Objeto cheque'
+    _rec_name = 'full_name'
     _columns =  {
         'name': fields.char("Nro", size=8, required=True, help="Numero de cheque, incluyendo ceros a la izquierda"),
+        'full_name': fields.char("Nro", readonly=True, compute="_set_full_name"),
         'firmante_id': fields.many2one('firmante', 'Firmante', required=True),
         'banco_id': fields.many2one('entidad.bancaria', 'Banco', required=True),
-        'importe': fields.float('Importe'),
-        'fecha_vencimiento': fields.date('Vencimiento', help="Fecha de cobro"),
+        'importe': fields.float('Importe', required=True),
+        'fecha_vencimiento': fields.date('Vencimiento', required=True, help="Fecha de cobro"),
         'fecha_deposito': fields.date('Deposito', help="Fecha del deposito"),
         'boleta_deposito': fields.text('Boleta de deposito', help="ID de la boleta de deposito"),
         'fecha_acreditacion_contable': fields.date('Acreditacion', help="Fecha de acreditacion contable, en caso de haberlo depositado en banco"),
@@ -70,5 +81,27 @@ class cheques_de_terceros(osv.Model):
     }
     _defaults = {
     	'state': 'draft',
-    	#''
     }
+
+    def unlink(self, cr, uid, ids, context=None):
+        #_logger.error("unlink self: %r", self)
+        #_logger.error("unlink ids : %r", ids)
+        _logger.error("context.keys : %r", context.keys())
+        flag = True
+        if 'params' in context.keys():
+            if 'action' in context['params'].keys():
+                _logger.error("context params.keys: %r", context['params'].keys())
+                if context['params']['action'] == 242:
+                    self.write(cr, uid, ids, {'state':'en_cartera', 'transferencia_enviar_id': False}, context=None)
+                    flag = False
+        if flag:
+            super(cheques_de_terceros, self).unlink(cr, uid, ids, context)
+        return True
+
+
+    @api.one
+    @api.depends('name', 'firmante_id', 'banco_id')
+    def _set_full_name(self):
+        _logger.error("_set_full_name : %r", self)
+        if self.name != False and self.firmante_id != False and self.banco_id != False:
+            self.full_name = self.firmante_id.name + "_[" + self.banco_id.name + "]_" + self.name + "_$" + str(self.importe)
