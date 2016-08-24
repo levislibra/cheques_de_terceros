@@ -138,15 +138,15 @@
     
     <!-- SubMenu Cheques Lista -->
     <menuitem id="submenu_cheques_lista" name="Cheques" parent="menu_cheques"  sequence="0" />
-    <menuitem id="submenu_cheques_lista_action" name="Listar" parent="submenu_cheques_lista" action="action_cheque"  sequence="0" />
+    <menuitem id="submenu_cheques_lista_action" name="Cheques" parent="submenu_cheques_lista" action="action_cheque"  sequence="0" />
 
     <!-- SubMenu Firmantes  -->
     <menuitem id="submenu_cheques_firmante" name="Firmantes" parent="menu_cheques"  sequence="1" />
-    <menuitem id="submenu_cheques_firmante_action" name="Listar" parent="submenu_cheques_firmante" action="action_firmante"  sequence="0" />
+    <menuitem id="submenu_cheques_firmante_action" name="Firmantes" parent="submenu_cheques_firmante" action="action_firmante"  sequence="0" />
 
     <!-- SubMenu Bancos  -->
     <menuitem id="submenu_cheques_bancos" name="Bancos" parent="menu_cheques"  sequence="2" />
-    <menuitem id="submenu_cheques_bancos_action" name="Listar" parent="submenu_cheques_bancos" action="action_entidad_bancaria"  sequence="0" />
+    <menuitem id="submenu_cheques_bancos_action" name="Bancos" parent="submenu_cheques_bancos" action="action_entidad_bancaria"  sequence="0" />
 
     </data>
 </openerp>
